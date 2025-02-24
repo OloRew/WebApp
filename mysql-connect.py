@@ -1,6 +1,6 @@
 import mysql.connector
 
-connection = mysql.connector.connect(user='root', password='Ale.rew7', host='127.0.0.1',
+connection = mysql.connector.connect(user='Olo', password='Testowe1', host='127.0.0.1',
                                      database='webapp', auth_plugin='mysql_native_password')
 
 query ='SELECT id, username, city FRM users'
