@@ -47,7 +47,7 @@ def dodaj():
             cursor = conn.cursor()
 
             # Wykonanie zapytania SQL (dostosuj do swojej tabeli)
-            query = "INSERT INTO twoja_tabela (username, city, meritalst) VALUES (%s, %s, %s)"
+            query = "INSERT INTO users (username, city, meritalst) VALUES (%s, %s, %s)"
             cursor.execute(query, (nazwa, miasto, stan_cyw))
 
             # Zatwierdzenie zmian
