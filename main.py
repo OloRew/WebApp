@@ -1,21 +1,50 @@
-from flask import Flask
+import mysql.connector
+from flask import Flask, request, render_template_string, render_template
 
-# Create an instance of the Flask class that is the WSGI application.
-# The first argument is the name of the application module or package,
-# typically __name__ when using a single module.
 app = Flask(__name__)
 
+# Konfiguracja połączenia z bazą danych MS SQL
+db_config = {
+    'host': '127.0.0.1',
+    'user': 'Olo',
+    'password': 'Testowe1',
+    'database': 'webapp',
+    'auth_plugin':'mysql_native_password'
+}
 
-# Flask route decorators map / and /hello to the hello function.
-# To add other resources, create functions that generate the page contents
-# and add decorators to define the appropriate resource locators for them.
 
 @app.route('/')
-@app.route('/hello')
-def hello():
-   # Render the page
-   return "Hello Python!"
+def index():
+    try:
+      # Nawiązanie połączenia z bazą danych
+        conn = mysql.connector.connect(**db_config)
+        #conn = mysql.connector.connect(user='Olo', password='Testowe1', host='127.0.0.1',
+        #                               database='webapp', auth_plugin='mysql_native_password')
+        cursor = conn.cursor(dictionary=True)
+        # Wykonanie zapytania SQL
+        cursor.execute("SELECT * FROM users")
+        data = cursor.fetchall()
+
+        # Zamknięcie połączenia
+        cursor.close()
+        conn.close()
+
+        # Przekazanie danych do szablonu HTML
+        return render_template('index.html', data=data)
+
+    except mysql.connector.Error as err:
+        return f"Błąd połączenia z bazą danych: {err}"   
+
+
+
+#Wyświetlenie akualnej listy osób z bazy
+#query ='SELECT id, username, city FROM users'
+#cursor = connection.cursor()
+#cursor.execute(query)
+
+#for row in cursor:
+  #  print(row)
+
 
 if __name__ == '__main__':
-
-   app.run(debug=False)
+    app.run(debug=True)
