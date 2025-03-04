@@ -38,7 +38,8 @@ def dodaj():
     if request.method == 'POST':
         # Pobierz dane z formularza
         nazwa = request.form['nazwa']
-        opis = request.form['opis']
+        miasto = request.form['miasto']
+        stan_cyw = request.form['stan_cyw']
 
         try:
             # Nawiązanie połączenia z bazą danych
@@ -46,8 +47,8 @@ def dodaj():
             cursor = conn.cursor()
 
             # Wykonanie zapytania SQL (dostosuj do swojej tabeli)
-            query = "INSERT INTO twoja_tabela (nazwa, opis) VALUES (%s, %s)"
-            cursor.execute(query, (nazwa, opis))
+            query = "INSERT INTO twoja_tabela (username, city, meritalst) VALUES (%s, %s, %s)"
+            cursor.execute(query, (nazwa, miasto, stan_cyw))
 
             # Zatwierdzenie zmian
             conn.commit()
